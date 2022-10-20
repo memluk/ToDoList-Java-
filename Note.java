@@ -1,7 +1,7 @@
 /**
  * Note class is the Model class which has a titel, content and a flag,
  * which shows whether the note is important.
- * TODO 1: Create and implement Model class
+ * TODO 1 : Create and implement Model class
  */
 public class Note {
     //region Constants
