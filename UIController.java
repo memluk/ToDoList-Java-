@@ -7,6 +7,11 @@ import java.util.Scanner;
  */
 public class UIController {
     //region Constants
+    public static final String MSG_INPUT_NOTE_DATA = "\nPlease, enter the following information: ";
+    public static final String MSG_INPUT_TITLE = "Titel: ";
+    public static final String MSG_INPUT_CONTENT = "Content: ";
+    public static final String MSG_INPUT_IMPORTANT = "Is this note important?";
+    public static final String MSG_CHOOSE_INDEX_EDIT = "\nPlease, select the note, you want to edit: ";
     //endregion
 
     //region Attributes
