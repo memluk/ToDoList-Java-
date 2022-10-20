@@ -1,6 +1,6 @@
 /**
  * This class contains all the texts and messages of the program
- * TODO 4: Create AppTexts class outsource the text-contents
+ * TODO 4 : Create AppTexts class outsource the text-contents
  */
 public class AppTexts {
     //region Constants
