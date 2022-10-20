@@ -1,9 +1,9 @@
 import java.util.Scanner;
+import java.util.List;
 
 /**
  * Implement the interaction between user and the UI
- *  TODO 2 create and implement UIControl class
- *  TODO 9 implement a delete() method
+ *  TODO 5: create and implement UIControl class
  */
 public class UIController {
     //region Constants
@@ -15,22 +15,21 @@ public class UIController {
     //endregion
 
     //region Attributes
-    private Note[] notes;
+    private final List<Note> noteList;
+    private final UIInputInteraction inputInteraction;
     //endregion
 
     //region Constructor
+    public UIController() {
+        noteList = TestData.getTestNotes();
+        inputInteraction = new UIInputInteraction();
+    }
     //endregion
 
     //region Methods
     public void startUI() {
-        initialize();
         printAppName();
         interactWithUser();
-    }
-
-    private void initialize() {
-//        notes = new Note[10];
-        notes = TestData.getTestNotes();
     }
 
     private void printAppName() {
@@ -44,6 +43,7 @@ public class UIController {
     /**
      * Print main menu, receive the user-input and calls the related methods
      * The interaction with main menu runs through a do-while loop
+     * TODO 7: Implement a method interact with the user
      */
     private void interactWithUser() {
         boolean endApp = false;
@@ -77,18 +77,60 @@ public class UIController {
         System.out.println(AppTexts.MSG_USER_CHOICE);
     }
 
+     /**
+     * Print all the notes to the console
+     * TODO 8: Set the outputs fit with the list
+     */
     private void show() {
         System.out.println();
-        for (int i = 0; i < notes.length; i++) {
-            System.out.println(i + " - " + notes[i]);
+        for (int i = 0; i < noteList.size(); i++) {
+            System.out.println(i + " - " + noteList.get(i));
         }
-        System.out.println("\nPrint the notes");
     }
 
-    private void create() { System.out.println("\nAdd a new note"); }
+    /**
+     * Add a new note to the list
+     * TODO 9: Create and implement a method to add new notes to the list
+     */
+    private void create() {
+        Note note = inputInteraction.getNoteFromUser();
+        noteList.add(note);
+    }
 
-    private void edit() { System.out.println("\nEdit a note"); }
+    /**
+     * Let user to choose a note to edit than read the new input and change the content
+     * TODO 10: Create a method to edit an existing note
+     */
+    private void edit() {
+        System.out.println(MSG_CHOOSE_INDEX_EDIT);
+        show();
 
-    private void delete() { System.out.println("\nDelete a note"); }
+        Scanner scanInt = new Scanner(System.in);
+        int indexToUpdate = scanInt.nextInt();
+
+        if (indexToUpdate < noteList.size()) {
+            Note note = inputInteraction.getNoteFromUser();
+            noteList.set(indexToUpdate, note);
+        }
+    }
+
+    /**
+     * Get an input from user to delete an existing note
+     * TODO 11: Create a method to delete an existing note
+     */
+    private void delete() {
+        System.out.println(AppTexts.MSG_CHOOSE_INDEX_DELETE);
+        show();
+
+        Scanner scanInt = new Scanner(System.in);
+        int indexToDelete = scanInt.nextInt();
+
+        if (indexToDelete < noteList.size()) {
+            noteList.remove(indexToDelete);
+            System.out.println(AppTexts.MSG_DELETE_SUCCESSFUL);
+        } else {
+            System.out.println(AppTexts.MSG_INVALID_CHOICE);
+        }
+    }
     //endregion
 }
