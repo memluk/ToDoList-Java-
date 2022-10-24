@@ -130,5 +130,60 @@ public class UIController {
             System.err.printf(AppTexts.MSG_INVALID_CHOICE);
         }
     }
+
+    /**
+     * Save the current List in CVS-Data after sorting
+     */
+    private void sortAndSaveListInCsvFile() {
+        sortByImportanceAndTitle();
+        FileHandler.getInstance().saveNotesToCsvFile(noteList);
+    }
+
+    public void sortByImportanceAndTitle() {
+
+        noteList.sort((firstNote, secondNote) -> {
+
+            //Sort the notes based on the importance
+            Boolean firstNoteImportant = firstNote.isImportant();
+            Boolean secondNoteImportant = secondNote.isImportant();
+
+            int boolCompare = firstNoteImportant.compareTo(secondNoteImportant);
+
+            if (boolCompare != 0) {
+                return -boolCompare;
+            }
+
+            String firstNoteTitle = firstNote.getTitle();
+            String secondNoteTitle = secondNote.getTitle();
+
+            int stringCompare = firstNoteTitle.compareTo(secondNoteTitle);
+
+            return stringCompare;
+        });
+
+        noteList.sort(new Comparator<Note>() {
+            @Override
+            public int compare(Note firstNote, Note secondNote) {
+
+                // Sort according to the importance
+                Boolean firstNoteImportant = firstNote.isImportant();
+                Boolean secondNoteImportant = secondNote.isImportant();
+
+                int boolCompare = firstNoteImportant.compareTo(secondNoteImportant);
+
+                if (boolCompare != 0) {
+                    return -boolCompare;
+                }
+
+                String firstNoteTitle = firstNote.getTitle();
+                String secondNoteTitle = secondNote.getTitle();
+
+                int stringCompare = firstNoteTitle.compareTo(secondNoteTitle);
+
+                return -stringCompare;
+            }
+        });
+
+    }
     //endregion
 }
