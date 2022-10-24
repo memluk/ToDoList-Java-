@@ -9,8 +9,8 @@ public class AppTexts {
     public static final String MAIN_MENU_DELETE = "[\t" + AppCommands.USER_CMD_DELETE + "\t] Delete a note";
     public static final String MAIN_MENU_EXIT = "[\t" + AppCommands.USER_CMD_EXIT + "\t] End the program";
     
-    public static final String MSG_USER_CHOICE = "\nChoose your option:";
-    public static final String MSG_INVALID_CHOICE = "\nUndefined Choice!";
+    public static final String MSG_USER_CHOICE = "\nSelect your option:";
+    public static final String MSG_INVALID_CHOICE = "Invalid selection!\n";
     public static final String MSG_CHOOSE_INDEX_DELETE = "\nSelect a note to delete: ";
     public static final String MSG_DELETE_SUCCESSFUL = "\nThe note has been successfully deleted.";
     public static final String MSG_INPUT_NOTE_DATA = "\nPlease, enter the following information: ";
