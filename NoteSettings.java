@@ -1,6 +1,5 @@
 /**
  * This class contains the general settings of user-input
- * TODO 2 : Implement NoteSettings class and initialize the values
  */
 public class NoteSettings {
     //region Constants
