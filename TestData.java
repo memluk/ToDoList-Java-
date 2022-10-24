@@ -1,6 +1,8 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Create a static Method to generate data
- * TODO 6 Create TestData class
  */
 public class TestData {
     //region Constants
@@ -19,17 +21,17 @@ public class TestData {
     /**
      * Generate test-notes and print them back
      * @return {@Link Note} : testNote array
-     * TODO 7: Implement a testNotes method
      */
-    public static Note[] getTestNotes() {
-        Note[] testNotes = new Note[TEST_NOTE_AMOUNT];
+    public static List<Note> getTestNotes() {
+        List<Note> testNoteList = new ArrayList<>();
 
         for (int i = 0; i < TEST_NOTE_AMOUNT; i++) {
-            testNotes[i] = new Note("Note Titel " + i, "Note Content " + i);
-            if (i % 3 == 0) testNotes[i].setImportant(true);
+            Note testNote = new Note("Test-Title " + i, "Test-Content " + i);
+            if (i % 2 == 0) testNote.setImportant(true);
+            testNoteList.add(testNote);
         }
 
-        return testNotes;
+        return testNoteList;
     }
     //endregion
 }
