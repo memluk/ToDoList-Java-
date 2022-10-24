@@ -1,27 +1,18 @@
 import java.util.Scanner;
 
+import static AppTexts.*;
+import static Note.DEF_STR_VAL;
+
 /**
  * This is side-class of {@link UIController}.
  * It reads the user-inputs checks the validity.
  * Returns the valid inputs to {@link UIController}.
- * TODO 7: Implement UIInputInteraction class and
- * TODO 7.1: Implement check-validation methods (getValidTitle, getValidContent)
  */
 public class UIInputInteraction {
-    //region Constants
-    //endregion
-
-    //region Attributes
-    //endregion
-
-    //region Constructor
-    //endregion
-
     //region Methods
     /**
      * Read the user-input from console and return
      * @return {@link Note} : Read note
-     * TODO 7.2: Implement a method to read the input
      */
     public Note getNoteFromUser() {
         System.out.println(UIController.MSG_INPUT_NOTE_DATA);
@@ -40,7 +31,6 @@ public class UIInputInteraction {
     /**
      * Read the title from console and check the validity (Min. 3, Max. 20 characters).
      * @return {@link String} : Title of the note
-     * TODO 7.3: Implement a method to read the input-title
      */
     private String getValidTitle() {
         String title = Note.DEF_STR_VAL;
@@ -55,8 +45,7 @@ public class UIInputInteraction {
             if (title.length() >= NoteSettings.MIN_LENGTH_TITLE && title.length() <= NoteSettings.MAX_LENGTH_TITLE) {
                 isValid = true;
             } else {
-                System.out.printf("\nInvalid Titel. The Titel must have %d to %d characters.",
-                        NoteSettings.MIN_LENGTH_TITLE, NoteSettings.MAX_LENGTH_TITLE);
+                System.err.printf(MSG_INVALID_TITLE, NoteSettings.MIN_LENGTH_TITLE, NoteSettings.MAX_LENGTH_TITLE);
             }
         }
         return title;
@@ -65,7 +54,6 @@ public class UIInputInteraction {
     /**
      * Read a new note from the console and check its validity.
      * @return {@link String} : Content of the note
-     * TODO 7.4: Implement a method to read the input-content
      */
     private String getValidContent() {
         String content = Note.DEF_STR_VAL;
@@ -79,12 +67,37 @@ public class UIInputInteraction {
             if (content.length() <= NoteSettings.MAX_LENGTH_CONTENT) {
                 isValid = true;
             } else {
-                System.out.printf("\nInvalid Content! The content can have until %d characters.",
-                        NoteSettings.MAX_LENGTH_CONTENT);
+                System.err.printf(MSG_INVALID_CONTENT, NoteSettings.MAX_LENGTH_CONTENT);
             }
         }
-
         return content;
+    }
+    
+        /**
+     * Ask whether the Note is important and check the validity (Y/y or N/n)
+     * @return {@link String} : y/n or Y/N
+     */
+    private boolean getValidImportance() {
+        String importance = DEF_STR_VAL;
+        boolean isValid = false;
+        boolean returnValue = false;
+
+        while (!isValid) {
+            System.out.printf(AppTexts.MSG_INPUT_IMPORTANT);
+            Scanner scanStr = new Scanner(System.in);
+            importance = scanStr.nextLine();
+
+            if (importance.equals("y") || importance.equals("Y")) {
+                isValid = true;
+                returnValue = true;
+            } else if (importance.equals("n") || importance.equals("N")) {
+                isValid = true;
+                returnValue = false;
+            } else {
+                System.err.printf(MSG_INVALID_IMPORTANCE);
+            }
+        }
+        return returnValue;
     }
     //endregion
 }
