@@ -1,14 +1,13 @@
+import java.util.Comparator;
 import java.util.Scanner;
 import java.util.List;
 
+import static AppTexts.MSG_CHOOSE_INDEX_EDIT;
+
 /**
  * Implement the interaction between user and the UI
- *  TODO 5: create and implement UIControl class
  */
 public class UIController {
-    //region Constants
-    //endregion
-
     //region Attributes
     private final List<Note> noteList;
     private final UIInputInteraction inputInteraction;
@@ -17,6 +16,7 @@ public class UIController {
     //region Constructor
     public UIController() {
         noteList = TestData.getTestNotes();
+        sortByImportanceAndTitle();
         inputInteraction = new UIInputInteraction();
     }
     //endregion
@@ -38,18 +38,17 @@ public class UIController {
     /**
      * Print main menu, receive the user-input and calls the related methods
      * The interaction with main menu runs through a do-while loop
-     * TODO 7: Implement a method interact with the user
      */
     private void interactWithUser() {
         boolean endApp = false;
 
-        do {
+        while (!endApp) {
             //Show main menu
             printMainMenu();
 
             //Read user input
-            Scanner scanInt = new Scanner(System.in);
-            int userChoice = scanInt.nextInt();
+            Scanner scanObj = new Scanner(System.in);
+            String userChoice = scanObj.nextLine();
 
             //Evaluate the user input and initiate the related method
             switch (userChoice) {
@@ -58,9 +57,9 @@ public class UIController {
                 case AppCommands.USER_CMD_EDIT -> edit();
                 case AppCommands.USER_CMD_DELETE -> delete();
                 case AppCommands.USER_CMD_EXIT -> endApp = true;
-                default -> System.out.println(AppTexts.MSG_INVALID_CHOICE);
+                default -> System.err.printf(AppTexts.MSG_INVALID_CHOICE);
             }
-        } while (!endApp);
+        }
     }
 
     private void printMainMenu() {
@@ -74,27 +73,29 @@ public class UIController {
 
      /**
      * Print all the notes to the console
-     * TODO 8: Set the outputs fit with the list
      */
     private void show() {
-        System.out.println();
+        System.out.printf(AppTexts.FORMAT_STRING_NOTE_HEADER, AppTexts.INDEX, AppTexts.TITLE,
+                AppTexts.CONTENT, AppTexts.IMPORTANT);
         for (int i = 0; i < noteList.size(); i++) {
-            System.out.println(i + " - " + noteList.get(i));
+            Note currentNote = noteList.get(i);
+            System.out.printf(AppTexts.FORMAT_STRING_NOTE, i, currentNote.getTitle(),
+                    currentNote.getContent(), currentNote.isImportant());
         }
     }
 
     /**
      * Add a new note to the list
-     * TODO 9: Create and implement a method to add new notes to the list
      */
     private void create() {
         Note note = inputInteraction.getNoteFromUser();
         noteList.add(note);
+        sortAndSaveListInCsvFile();
+        System.out.println(AppTexts.MSG_NOTE_CREATION_SUCCESS);
     }
 
     /**
      * Let user to choose a note to edit than read the new input and change the content
-     * TODO 10: Create a method to edit an existing note
      */
     private void edit() {
         System.out.println(MSG_CHOOSE_INDEX_EDIT);
@@ -106,12 +107,14 @@ public class UIController {
         if (indexToUpdate < noteList.size()) {
             Note note = inputInteraction.getNoteFromUser();
             noteList.set(indexToUpdate, note);
+            System.out.println(AppTexts.MSG_NOTE_EDIT_SUCCESS);
+        } else {
+            System.err.printf(AppTexts.MSG_INVALID_CHOICE);
         }
     }
 
     /**
      * Get an input from user to delete an existing note
-     * TODO 11: Create a method to delete an existing note
      */
     private void delete() {
         System.out.println(AppTexts.MSG_CHOOSE_INDEX_DELETE);
@@ -124,7 +127,7 @@ public class UIController {
             noteList.remove(indexToDelete);
             System.out.println(AppTexts.MSG_DELETE_SUCCESSFUL);
         } else {
-            System.out.println(AppTexts.MSG_INVALID_CHOICE);
+            System.err.printf(AppTexts.MSG_INVALID_CHOICE);
         }
     }
     //endregion
