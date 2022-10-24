@@ -1,6 +1,5 @@
 /**
  * This class contains all the constants for the user choices
- * TODO 3: Create AppCommands class and outsource the options
  */
 public class AppCommands {
     //region Constants
